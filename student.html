@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width ,initial-scale=1.0" />
+    <title>Student Record Tracker</title>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 1.5rem;
+        overflow: auto;
+      }
+      .container {
+        height: 30rem;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        background-color: beige;
+        justify-content: center;
+        align-items: center;
+      }
+      table {
+        border-spacing: 0px;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 0.4rem;
+      }
+      .input {
+        height: 2rem;
+        width: 15rem;
+        border: 2px solid black;
+        border-radius: 0.6rem;
+      }
+      .name {
+        height: 3rem;
+        border: 2px solid black;
+        border-radius: 0.6rem;
+        width: 5rem;
+        background-color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Student Record Tracker</h1>
+      <div class="studentsName">
+        <label>
+          <h3>Student Name:</h3>
+          <input
+            placeholder="Enter Student name"
+            type="text"
+            class="student input"
+          />
+        </label>
+      </div>
+      <div class="subjectName">
+        <label>
+          <h3>Subject Name:</h3>
+          <input
+            placeholder="Enter subject name"
+            type="text"
+            class="subject input"
+          />
+        </label>
+      </div>
+      <div class="marks">
+        <label>
+          <h3>Marks:</h3>
+          <input
+            placeholder="Enter student mark"
+            type="number"
+            class="markValue input"
+          />
+        </label>
+      </div>
+      <div class="btn">
+        <button class="stu name">ADD</button>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Student Name</th>
+          <th>Sudject Name</th>
+          <th>Mark</th>
+          <th>Status</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <script>
+      let num = 1;
+      const input1 = document.querySelector(".student");
+      const input2 = document.querySelector(".subject");
+      const input3 = document.querySelector(".markValue");
+      document.querySelector(".stu").addEventListener("click", () => {
+        let val1 = input1.value;
+        let val2 = input2.value;
+        let val3 = input3.value;
+        document.querySelector("tbody").innerHTML += `
+        <tr>
+            <td>${num}</td>
+            <td>${val1}</td>
+            <td>${val2}</td>
+            <td>${val3}</td>
+            <td><button class="status"></button></td>
+            <td><button class="delete">Delete</button></td>
+          </tr>
+        `;
+        const delBtns = document.querySelectorAll(".delete");
+        delBtns.forEach((delBtn) => {
+          const row = delBtn.closest("tr");
+          const stat = row.querySelector(".status");
+          const val=row.children[3].innerText;
+          if (val >= 80) {
+            stat.innerText="pass";
+            stat.style.cssText = `
+            color:white;
+            background-color:green;
+            border-radius:0.3rem;
+            border:1px solid black;
+            `;
+          } else {
+            stat.innerText="fail";
+            stat.style.cssText = `
+            background-color:red;
+            border-radius:0.3rem;
+            border:1px solid black;
+            `;
+          }
+          delBtn.style.cssText = `
+            background-color:red;
+            border-radius:0.3rem;
+            border:1px solid black;
+            `;
+          delBtn.addEventListener("click",()=>{
+            row.remove();
+            updateNum();
+          })
+        });
+        num++;
+      });
+      function updateNum(){
+        const elements=document.querySelectorAll("tbody tr");
+        elements.forEach((ele,index)=>{
+          ele.children[0].innerText=index+1;
+        });
+        num=elements.length+1;
+      }
+    </script>
+  </body>
+</html>

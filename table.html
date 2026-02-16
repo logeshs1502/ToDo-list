@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>To-do list</title>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        height: 30rem;
+        width: 80%;
+        background-color: beige;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        overflow: auto;
+      }
+      .input {
+        height: 2rem;
+        width: 15rem;
+        border-radius: 1rem;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 0.6rem;
+      }
+      table {
+        border-spacing: 0px;
+      }
+      .add-btn {
+        height: 2rem;
+        width: 3rem;
+        color: white;
+        background-color: green;
+        border-radius: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>To-Do List</h1>
+      <label><h3>Tasks</h3></label>
+      <div class="add-item">
+        <input placeholder="enter the task" class="input" />
+        <button class="add-btn">Add</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>S.no</th>
+            <th>Task</th>
+            <th>completed</th>
+            <th>delete</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <script>
+      let num = 1;
+      function updateCount() {
+        const rows = document.querySelectorAll("tbody tr");
+        rows.forEach((row, index) => {
+          row.children[0].textContent = index + 1;
+        });
+        num = rows.length + 1;
+      }
+      document.querySelector(".add-btn").addEventListener("click", () => {
+        let val = document.querySelector(".input").value;
+        document.querySelector("tbody").innerHTML += `
+            <tr>
+                <td>${num}</td>
+                <td>${val}</td>
+                <td><input type="checkbox" class="check"></td>
+                <td><button class='delete-items'>delete</button></td>
+            </tr>
+            `;
+        num++;
+        const delBtns = document.querySelectorAll(".delete-items");
+        delBtns.forEach((delBtn) => {
+          delBtn.style.cssText = `
+    height: 2rem;
+    width: 3rem;
+    color: white;
+    background-color: red;
+    border-radius: 1rem;
+  `;
+
+          delBtn.addEventListener("click", () => {
+            const row = delBtn.closest("tr");
+            const ch = row.querySelector(".check");
+
+            if (!ch.checked) {
+              row.remove();
+              updateCount();
+            } else {
+              delBtn.disabled = true;
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
